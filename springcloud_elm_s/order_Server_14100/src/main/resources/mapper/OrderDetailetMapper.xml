@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ynu.edu.mapper.OrderDetailetMapper">
+
+    <resultMap type="ynu.edu.domin.OrderDetailet" id="orderDetailetResultMap">
+        <id column="odId" property="odId"/>
+        <result column="orderId" property="orderId"/>
+        <result column="foodId" property="foodId"/>
+        <result column="quantity" property="quantity"/>
+        <association property="food" javaType="ynu.edu.domin.Food"
+                     select="ynu.edu.mapper.FoodMapper.selectById"
+                     column="foodId"/>
+    </resultMap>
+    <select id="listOrderDetailetByOrderId" parameterType="Integer"
+            resultMap="orderDetailetResultMap">
+        select * from orderDetailet where orderId=#{orderId}
+    </select>
+
+</mapper>
