@@ -1,0 +1,66 @@
+server:
+  port: 16000
+spring:
+  application:
+    name: "consumer-server"
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.cloud.client.ip-address}:${server.port} #本机标识
+    #    每5s通信一次  15s内未响应从服务注册中心删除
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+  client:
+    service-url:
+      defaultZone: "http://eurekaServer18000:18000/eureka/,http://eurekaServer18001:18001/eureka/"
+resilience4j:
+  circuitbreaker:
+    configs:
+      default: #名字
+        failure-rate-threshold: 30 #熔断器打开的失败阈值 %
+        sliding-window-type: TIME_BASED #基于时间滑动窗的方式
+        minimum-number-of-calls: 5
+        sliding-window-size: 10000 # 设置时间窗口长度
+        automatic-transition-from-open-to-half-open-enabled: true #自动打开到半关
+        wait-duration-in-open-state: 5s #熔断器从打开到半开的时间
+        permitted-number-of-calls-in-half-open-state: 3 #半开状态时运行通过的请求数
+        record-exceptions: java.lang.Exception #记录异常
+        register-health-indicator: false #健康检测
+    instances:
+      backendA:
+        base-config: default #继承的配置
+      backendB:
+        base-config: default
+        failure-rate-threshold: 50 #熔断器打开的失败阈值 %
+        slow-call-rate-threshold: 30 #慢调用阈值
+        slow-call-duration-threshold: 2s
+
+#      线程池隔离
+  thread-pool-bulkhead:
+    configs:
+      default:
+        max-thread-pool-size: 10 #最大线程数
+        queue-capacity: 5
+        keep-alive-duration: 20ms
+    #       核心线程池 等待线程数 等待时间
+
+    instances:
+      bulkhead1:
+        base-config: default
+
+#限流器
+  ratelimiter:
+    configs:
+      default:
+        limit-for-period: 2
+        limit-refresh-period:
+          seconds: 5
+          #2s之内放10个令牌
+        timeout-duration: 50ms
+        #等待令牌时间
+    instances:
+      rate1:
+        base-config: default
+
+
