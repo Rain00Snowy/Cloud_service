@@ -1,0 +1,29 @@
+1,2,eureka
+3：openfeign
+4:负载均衡
+5：熔断器
+6：retry
+7：限流
+8：线程池隔离
+09：信号量隔离
+10：timelimiter
+11：网关创建 动态路由
+12；网关注册到eureka 负载均衡
+13：在gateway中鉴权 ， 再配置服务的跨域 不让跨过网关访问
+14:gateway中增加熔断配置熔断方法路径
+15：配置中心：
+       远程读取配置文件
+          config_server
+          直接通过访问
+   //http://localhost:15000/service_consumer_16001-dev.yml
+          访问配置文件
+          configserver 加了spring-cloud-config-server包
+          改的11000 删除配置文件 新建一个bootsrtap pom加spring-cloud-starter-bootstrap和 spring-cloud-starter-config
+16:config集群
+      注册到eureka 改配置文件和pom
+
+      把服务的bootstrap的config修改
+   17：消息队列 安装erlang 和 rabbitMQ
+        configserver中配置消息总线相关
+        服务的controller加@RefreshScope注解 （16001.11001.11000）
+        修改配置文件后post  http://localhost:15000/actuator/busrefresh就不用停机刷新配置文件 （）
