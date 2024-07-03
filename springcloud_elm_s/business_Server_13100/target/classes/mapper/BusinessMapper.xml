@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ynu.edu.mapper.BusinessMapper">
+    <select id="queryBusiness" resultType="ynu.edu.domin.Business">
+        select * from business
+    </select>
+
+    <select id="queryBusinessById" resultType="ynu.edu.domin.Business">
+        select * from business where businessid  = #{bId}
+    </select>
+
+
+    <insert id="insertBusiness" keyProperty="businessId"
+            keyColumn="businessId" parameterType="ynu.edu.domin.Business">
+        insert into business(
+                            businessId,
+                            businessName,
+                            businessAddress,
+                            businessExplain,
+                            businessImg,
+                            orderTypeId,
+                            starPrice,
+                            deliveryPrice,
+                            remarks)
+                            values (#{businessId},
+                                    #{businessName},
+                                    #{businessAddress},
+                                    #{businessExplain},
+                                    #{businessImg},
+                                    #{orderTypeId},
+                                    #{starPrice},
+                                    #{deliveryPrice},
+                                    #{remarks})</insert>
+    <update id="updateBusiness" keyProperty="businessId"
+            keyColumn="businessId" parameterType="ynu.edu.domin.Business">
+        update business set
+                            businessName=#{businessName},
+                            businessAddress=#{businessAddress},
+                            businessExplain=#{businessExplain},
+                            businessImg=#{businessImg},
+                            orderTypeId=#{orderTypeId},
+                            starPrice=#{starPrice},
+                            deliveryPrice=#{deliveryPrice},
+                            remarks=#{remarks}
+        where businessId =#{businessId}
+    </update>
+    <delete id="deleteBusiness" parameterType="Integer">
+        delete from business where businessId =#{busId}
+    </delete>
+</mapper>
