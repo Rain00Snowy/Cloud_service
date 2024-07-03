@@ -1,0 +1,14 @@
+server:
+  port: 18001
+
+eureka:
+  instance:
+    hostname: "localhost"
+  client:
+    register-with-eureka: false #是否将自己注册刀eureka服务中 单机不需要
+    fetch-registry: false   #是否需要从注册中心拉取服务列表的功能
+    service-url:
+      defaultZone: "http://eurekaServer18000:18000/eureka/"
+
+  server:
+    enable-self-preservation: false
