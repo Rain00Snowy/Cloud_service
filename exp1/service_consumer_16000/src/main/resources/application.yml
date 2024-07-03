@@ -1,0 +1,16 @@
+server:
+  port: 16000
+spring:
+  application:
+    name: "consumer-server"
+
+eureka:
+  instance:
+    prefer-ip-address: true
+    instance-id: "${spring.cloud.client.ip-address}:${server.port}" #本机标识
+    #    每5s通信一次  15s内未响应从服务注册中心删除
+    lease-renewal-interval-in-seconds: 5
+    lease-expiration-duration-in-seconds: 15
+  client:
+    service-url:
+      defaultZone: "http://eurekaServer18000:18000/eureka/,http://eurekaServer18001:18001/eureka/"
